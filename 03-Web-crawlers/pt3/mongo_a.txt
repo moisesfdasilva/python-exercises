@@ -1,0 +1,45 @@
+Mongo no Docker:
+$ docker run --name mongodb_v6 -d -p 27017:27017 mongo:6.0
+
+Shell do MongoDB no Docker:
+$ docker exec -it mongodb_v6 mongosh
+
+Importando base de dados para o MongoDB:
+$ docker cp trybnb.json mongodb_v6:/tmp/trybnb.json
+            |nome do arquivo|nome do container do mongo|nome do arquivo dentro do container|
+
+Importação do arquivo JSON:
+$docker exec mongodb_v6 mongoimport -d trybnb -c places --file /tmp/trybnb.json --jsonArray
+             |nome do container|comando de import|nome do db|nome da coleção|localização e nome do arquivo a ser importado|importado em array
+
+Manipular no mongosh:
+-conectar ao banco de dados trybnb
+$ use trybnb
+
+-listar todos os documentos presentes na coleção places
+$ db.places.find()
+
+-contagem de documentos
+$ db.places.countDocuments()
+
+-parâmetro query, método find()
+$ db.places.find({ '_id': 7 })
+$ db.places.find({ 'address.country_code': 'BR' })
+
+  -conta quantos documentos entrados
+  $ db.places.find({ 'address.country_code': 'BR' }).count()
+
+  -exibir o compo name
+  $ db.places.find({ '_id': 7 }, { 'name': true })
+
+  -exibir o compo name e address
+  $ db.places.find({ '_id': 7 }, { 'name': true, 'address': true })
+
+  -não exibir o campo address e host
+  $ db.places.find({ '_id': 7 }, { 'address': false, 'host': false })
+
+  -para ordenar o resultado de forma crescente
+  $ db.places.find().sort({'_id': 1})
+
+  -para ordenar o resultado de forma decrescente
+  $ db.places.find().sort({'_id': -1})
