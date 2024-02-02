@@ -1,0 +1,8 @@
+Operadores de Consulta em Arrays:
+
+  - $all é usado pra passar mais de um valor para comparação em um atributo do tipo array,
+    e a ordem desta lista não importa.
+  $ db.places.find({ amenities: { $all: ["Stove", "Refrigerator"] } })
+
+  - $elemMatch seleciona todos os documentos que satisfaçam pelo menos um critério.
+  $ db.collection.find( { array: { $elemMatch: { value1: 1, value2: { $gt: 1 } } } } );
