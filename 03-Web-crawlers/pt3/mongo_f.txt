@@ -1,0 +1,9 @@
+Método Delete
+
+  - $deleteOne
+  $ db.places.deleteOne({ _id: 11 })
+
+  - $deleteMany
+  $ db.places.deleteMany({ "host.host_identity_verified": { $eq: false } })
+
+  $ db.places.deleteMany({}) <--- deleta tudo.

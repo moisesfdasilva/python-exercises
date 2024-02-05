@@ -1,0 +1,25 @@
+Comparação:
+
+- igualdade
+{<chave> { $eq: <valor> }}
+$ db.places.find({ '_id': { $eq: 7 }})
+
+- não igualdade
+{<chave> { $ne: <valor> }}
+$ db.places.find({ '_id': { $ne: 7 }})
+
+- maior que
+{<chave> { $gt: <valor> }}
+$ db.places.find({ '_id': { $gt: 7 }})
+
+- maior ou igual
+{<chave> { $gte: <valor> }}
+$ db.places.find({ '_id': { $gte: 7 }})
+
+- menor que
+{<chave> { $lt: <valor> }}
+$ db.places.find({ '_id': { $lt: 7 }})
+
+- menor ou igual
+{<chave> { $lte: <valor> }}
+$ db.places.find({ '_id': { $lte: 7 }})
