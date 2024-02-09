@@ -6,10 +6,9 @@ student_controller = Blueprint("student_controller", __name__)
 
 
 @student_controller.route("/students", methods=["GET"])
-def index():
+def get_all():
+    all_students = StudentsModel.get_all()
+
     return render_template(
-        "alunos.html",
-        students=[
-            {"name": "Elena Rybakina", "register": "005"},
-            {"name": "Danielle Collins", "register": "071"},
-        ])
+        "students.html",
+        students=all_students)
