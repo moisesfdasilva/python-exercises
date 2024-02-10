@@ -9,5 +9,6 @@ ARG FLASK_ENV
 RUN if [ "$FLASK_ENV" = "dev" ] ; then pip install --no-cache-dir -r dev-requirements.txt  ; fi
 
 COPY ./src .
+# RUN python3 initial_charge_db.py
 
 CMD ["python3", "app.py"]
