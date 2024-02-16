@@ -1,0 +1,13 @@
+* {
+  text-align: center;
+}
+
+h1 {
+  background-color: beige;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p {
+  background-color: gray;
+  font-family: 'Times New Roman';
+}
