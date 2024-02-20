@@ -1,0 +1,111 @@
+INITIAL STEPS:
+Step 1:
+    $ python3 -m venv .venv && source .venv/bin/activate
+    $ pip install django
+    $ pip install Pillow # biblioteca para trabalhar com imagens
+    $ pip install mysqlclient # biblioteca para se comunicar com o MySQL
+
+Step 2:
+    $ django-admin startproject event_manager .
+    $ django-admin startapp events
+
+Step 3:
+    # event_manager/settings.py
+    ...
+    INSTALLED_APPS = [
+      'django.contrib.admin',
+      'django.contrib.auth',
+      'django.contrib.contenttypes',
+      'django.contrib.sessions',
+      'django.contrib.messages',
+      'django.contrib.staticfiles',
+    + 'events',
+    ]
+    ...
+
+Step 4:
+    # event_manager/settings.py
+    ...
+    DATABASES = {
+        'default': {
+    -       'ENGINE': 'django.db.backends.sqlite3',
+    +       'ENGINE': 'django.db.backends.mysql',
+    -       'NAME': BASE_DIR / 'db.sqlite3',
+    +       'NAME': 'event_manager_database',
+    +       'USER': 'root',
+    +       'PASSWORD': 'password',
+    +       'HOST': '127.0.0.1',
+    +       'PORT': '3306',
+        }
+    }
+    ...
+
+Step 5:
+    $ mkdir database && cd database
+    $ touch 01_create_database.sql
+
+Step 6:
+    # ./database/touch 01_create_database.sql
+    CREATE DATABASE IF NOT EXISTS event_manager_database;
+
+    USE event_manager_database;
+
+Step 7:
+    # Dockerfile
+    FROM mysql:8.0.32
+
+    ENV MYSQL_ROOT_PASSWORD password
+    COPY ./database/01_create_database.sql /docker-entrypoint-initdb.d/data.sql01
+
+Step 8:
+    $ docker build -t event-manager-db .
+    $ docker run -d -p 3306:3306 --name=event-manager-mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=event_manager_database event-manager-db
+
+Step 9:
+    $ python3 manage.py migrate
+
+STATIC FILES:
+Step 1:
+    $ pip install whitenoise # Serve os arquivos estáticos a partir de um diretório
+    $ pip install django-static-autocollect # Coleta os arquivos estáticos e os coloca em um diretório
+
+Step 2:
+    # event_manager/settings.py
+    ...
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'events',
+    +   'static_autocollect'
+    ]
+    MIDDLEWARE = [
+        'django.middleware.security.SecurityMiddleware',
+    +   'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        ]
+    ...
+    + MEDIA_URL = ''
+    + MEDIA_ROOT = BASE_DIR / 'media'
+    STATIC_URL = 'static/'
+    + STATIC_ROOT = BASE_DIR / 'staticfiles'
+    + STATICFILES_DIRS = [
+        +     str(BASE_DIR / 'media/'),
+        + ]
+    + STORAGE = {
+        +    "default": {
+            +        "BACKEND": "django.core.files.storage.FileSystemStorage",
+            +    },
+        +    "staticfiles": {
+            +        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+            +    }
+        + }
+    + WHITE_NOISE_AUTOREFRESH = True

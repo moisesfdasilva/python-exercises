@@ -1,0 +1,16 @@
+Step1:
+    $ python3 -m venv .venv && source .venv/bin/activate
+
+Step2:
+    $ pip install django djangorestframework
+
+Step3:
+    $ pip install markdown django-filter mysqlclient
+
+Step4:
+    $ django-admin startproject playlistify .
+
+Step5:
+    $ django-admin startapp core
+
+-> superuser: user(Silva777); e-mail(silva777@gmail.com); password(silva777)
