@@ -1,0 +1,93 @@
+Usando outro banco de dados
+
+
+- Deletar o arquivo db.sqlite3
+
+
+- No arquivo settings.py
+...
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ecommerce_database',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        }
+}
+...
+
+
+- criar o diretório database
+
+
+- criar o arquivo 01_create_database.sql, em database, com o seguinte conteúdo:
+
+CREATE DATABASE IF NOT EXISTS ecommerce_database;
+
+USE ecommerce_database;
+
+
+- criar o Dockerfile na raiz do projeto, com o seguinte conteúdo:
+FROM mysql:8.0.32
+
+ENV MYSQL_ROOT_PASSWORD password
+
+# Copia o script SQL que acabamos de criar para um determinado diretório no container
+COPY ./database/01_create_database.sql /docker-entrypoint-initdb.d/data.sql01
+
+
+- para criar a imagem:
+$ docker build -t ecommerce-db .
+
+
+- para executar o container e o script de criação do banco copiado no Dockerfile:
+$ docker run -d -p 3306:3306 --name=ecommerce-mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=ecommerce_database ecommerce-db
+
+
+- para migrar os dados
+$ python3 manage.py migrate
+
+
+- para instalar o mysqlclient (para o Django se comunicar com o banco de dados)
+$ pip install mysqlclient
+
+- caso ocorra um erro, a seguinte instalação ajusta o mysqlclient
+$ sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config
+
+- adicionar em ecommerce/ecommerce/settings.py o model
+INSTALLED_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
++    "products",
+]
+
+- para criar o app
+$ django-admin startapp products
+
+- em ecommerce/products/models.py criar o model
+from django.db import models
+
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.IntegerField(default=0)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    image = models.ImageField(
+      upload_to="media/products", null=True, blank=True
+    )
+
+- para rodar as migrations
+$ python3 -m pip install Pillow
+
+- agora rodar as migrations
+$ python3 manage.py makemigrations
+$ python3 manage.py migrate
