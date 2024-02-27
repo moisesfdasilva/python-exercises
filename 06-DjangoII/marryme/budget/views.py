@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from .models import Vendor, Marriage, Budget
-from rest_framework.authentication import BasicAuthentication
+# from rest_framework.authentication import BasicAuthentication
+# from rest_framework.authentication import TokenAuthentication
 from .serializers import (VendorSerializer,
                           MarriageSerializer,
                           BudgetSerializer,
@@ -11,7 +12,8 @@ from .permissions import IsOwnerOrAdmin
 class VendorViewSet(viewsets.ModelViewSet):
     queryset = Vendor.objects.all()
     serializer_class = AdminVendorSerializer
-    authentication_classes = [BasicAuthentication]
+    # authentication_classes = [BasicAuthentication]
+    # authentication_classes = [TokenAuthentication]
 
     def get_serializer_class(self):
         if self.action in ("create", "destroy", "update"):
@@ -22,7 +24,8 @@ class VendorViewSet(viewsets.ModelViewSet):
 class MarriageViewSet(viewsets.ModelViewSet):
     queryset = Marriage.objects.all()
     serializer_class = MarriageSerializer
-    authentication_classes = [BasicAuthentication]
+    # authentication_classes = [BasicAuthentication]
+    # authentication_classes = [TokenAuthentication]
     permission_classes = [IsOwnerOrAdmin]
 
     def get_queryset(self):
@@ -39,7 +42,8 @@ class MarriageViewSet(viewsets.ModelViewSet):
 class BudgetViewSet(viewsets.ModelViewSet):
     queryset = Budget.objects.all()
     serializer_class = BudgetSerializer
-    authentication_classes = [BasicAuthentication]
+    # authentication_classes = [BasicAuthentication]
+    # authentication_classes = [TokenAuthentication]
     permission_classes = [IsOwnerOrAdmin]
 
     def get_queryset(self):
