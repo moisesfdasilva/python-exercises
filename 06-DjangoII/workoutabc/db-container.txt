@@ -1,0 +1,5 @@
+- BUILD:
+$ docker build -t workoutabc-db .
+
+- RUN:
+$ docker run -d -p 3306:3306 --name=workoutabc-mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=workoutabc_database workoutabc-db
