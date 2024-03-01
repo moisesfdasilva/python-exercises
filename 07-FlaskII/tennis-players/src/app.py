@@ -1,13 +1,13 @@
 from flask import Flask, Response
 from flask_sqlalchemy import SQLAlchemy
-# import mysql.connector
+import mysql.connector
 import json
 
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = \
-  "mysql://root:@localhost/tennisplayerdb"
+  "mysql://root:password@127.0.0.1:3306/tennis_players_database"
 db = SQLAlchemy(app)
 
 
