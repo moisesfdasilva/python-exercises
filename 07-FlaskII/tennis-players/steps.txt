@@ -1,0 +1,8 @@
+BUILD CONTAINER:
+docker build -t tennisplayers-db .
+
+CREATE CONTAINER:
+docker run -d -p 3306:3306 --name=tennisplayers-mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=tennis_players_database tennisplayers-db
+
+RUN APP:
+python3 src/app.py
