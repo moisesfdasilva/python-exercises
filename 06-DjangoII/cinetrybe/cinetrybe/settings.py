@@ -83,7 +83,7 @@ DATABASES = {
        'NAME': 'cinetrybe_database',
        'USER': 'root',
        'PASSWORD': 'password',
-       'HOST': '127.0.0.1',
+       'HOST': 'db_service',
        'PORT': '3306',
     }
 }
