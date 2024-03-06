@@ -1,11 +1,18 @@
 from flask import Flask
-from .database import db
-from .config import SQLALCHEMY_DB_URI
+from .extensions import db, migrate
+from .routes.main import main
+from .routes.api import api
 
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite3'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DB_URI
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    db.init_app(app)
+    migrate.init_app(app, db)
 
-db.init_app(app)
+    app.register_blueprint(main)
+    app.register_blueprint(api)
+
+    return app
