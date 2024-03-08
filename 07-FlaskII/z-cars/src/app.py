@@ -32,16 +32,39 @@ def get_cars():
         data=cars))
 
 
-# @app.route("/cars", methods=["POST"])
-# def create_car():
-#     car = request.json
+@app.route("/car/<car_id>", methods=["GET"])
+def get_car(car_id):
+    my_cursor = mydb.cursor()
+    query = f"SELECT * FROM cars WHERE id={car_id}"
+    my_cursor.execute(query)
+    car_db = my_cursor.fetchall()[0]
 
-#     my_cursor = mydb.cursor()
-#     query = "INSERT INTO cars (brand, model, year)"\
-#       f"VALUES ('{car['brand']}', '{car['model']}', '{car['year']})'"
-#     my_cursor.execute(query)
-#     mydb.commit()
+    car = {
+        "id": car_db[0],
+        "brand": car_db[1],
+        "model": car_db[2],
+        "year": car_db[3]}
 
-#     return make_response(jsonify(
-#         mensage="Cars List",
-#         data=cars))
+    return make_response(jsonify(
+        mensage="Car",
+        data=car))
+
+
+@app.route("/car", methods=["POST"])
+def create_car():
+    car = request.json
+    print(car)
+
+    my_cursor = mydb.cursor()
+    query = f"INSERT INTO cars (brand, model, year) VALUES ('{car['brand']}',"\
+        f"'{car['model']}', {car['year']})"
+    my_cursor.execute(query)
+    mydb.commit()
+
+    return make_response(jsonify(
+        mensage="Car created",
+        data=car))
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=8000)
