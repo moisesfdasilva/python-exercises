@@ -16,7 +16,7 @@ app.config["JASON_SORT_KEYS"] = False
 @app.route("/cars", methods=["GET"])
 def get_cars():
     my_cursor = mydb.cursor()
-    my_cursor.execute("SELECT * FROM cars")
+    my_cursor.execute("SELECT * FROM cars;")
     cars_db = my_cursor.fetchall()
 
     cars = list()
@@ -35,7 +35,7 @@ def get_cars():
 @app.route("/car/<car_id>", methods=["GET"])
 def get_car(car_id):
     my_cursor = mydb.cursor()
-    query = f"SELECT * FROM cars WHERE id={car_id}"
+    query = f"SELECT * FROM cars WHERE id={car_id};"
     my_cursor.execute(query)
     car_db = my_cursor.fetchall()[0]
 
@@ -56,7 +56,7 @@ def create_car():
 
     my_cursor = mydb.cursor()
     query = f"INSERT INTO cars (brand, model, year) VALUES ('{car['brand']}',"\
-        f"'{car['model']}', {car['year']})"
+        f"'{car['model']}', {car['year']});"
     my_cursor.execute(query)
     mydb.commit()
 
@@ -69,13 +69,23 @@ def create_car():
 def update_car(car_id):
     car = request.json
     my_cursor = mydb.cursor()
-    query = f"UPDATE cars SET brand={car['brand']}, model={car['model']}, "\
-        f"year={car['year']} WHERE id={car_id}"
+    query = f"UPDATE cars SET brand='{car['brand']}', model='{car['model']}',"\
+        f" year={car['year']} WHERE id={car_id};"
     my_cursor.execute(query)
     mydb.commit()
     return make_response(jsonify(
         mensage="Car updated",
         data=car))
+
+
+@app.route("/car/<car_id>", methods=["DELETE"])
+def delete_car(car_id):
+    my_cursor = mydb.cursor()
+    query = f"DELETE FROM cars WHERE id={car_id};"
+    my_cursor.execute(query)
+    mydb.commit()
+    return make_response(jsonify(
+        mensage=f"Car id {car_id} deleted"))
 
 
 if __name__ == '__main__':
