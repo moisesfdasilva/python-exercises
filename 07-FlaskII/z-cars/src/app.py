@@ -53,7 +53,6 @@ def get_car(car_id):
 @app.route("/car", methods=["POST"])
 def create_car():
     car = request.json
-    print(car)
 
     my_cursor = mydb.cursor()
     query = f"INSERT INTO cars (brand, model, year) VALUES ('{car['brand']}',"\
@@ -63,6 +62,19 @@ def create_car():
 
     return make_response(jsonify(
         mensage="Car created",
+        data=car))
+
+
+@app.route("/car/<car_id>", methods=["PUT"])
+def update_car(car_id):
+    car = request.json
+    my_cursor = mydb.cursor()
+    query = f"UPDATE cars SET brand={car['brand']}, model={car['model']}, "\
+        f"year={car['year']} WHERE id={car_id}"
+    my_cursor.execute(query)
+    mydb.commit()
+    return make_response(jsonify(
+        mensage="Car updated",
         data=car))
 
 
