@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS z_cars_database;
+CREATE DATABASE IF NOT EXISTS z_cars2;
 
-USE z_cars_database;
+USE z_cars2;
 
 CREATE TABLE cars (
     id integer not null auto_increment,
