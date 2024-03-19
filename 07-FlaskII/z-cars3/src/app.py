@@ -1,10 +1,31 @@
-from flask import Flask
-# from car_controller import car_controller
+from flask import Flask, Response
+from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-app.config["JASON_SORT_KEYS"] = False
-# app.register_blueprint(car_controller, url_prefix="/cars")
+app.config["SQLALCHEMY_DATABASE_URI"] = \
+  "mysql+pymysql://root:password@127.0.0.1:3306/z_cars2"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+
+db = SQLAlchemy(app)
+
+
+class Car(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    brand = db.Column(db.String(100))
+    model = db.Column(db.String(100))
+    year = db.Column(db.Integer)
+
+
+@app.route("/cars/all", methods=["GET"])
+def get_all():
+    all_cars = Car.query.all()
+    print("__________________________A")
+    cars_json = [car.to_json() for car in all_cars]
+    print("__________________________B")
+
+    return Response(cars_json)
 
 
 if __name__ == '__main__':
