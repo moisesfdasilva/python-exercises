@@ -1,5 +1,5 @@
 from flask import Flask
-from car_controller import car_controller
+from controllers.car_controller import car_controller
 
 
 app = Flask(__name__)
