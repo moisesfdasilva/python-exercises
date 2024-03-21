@@ -1,0 +1,11 @@
+INSTALL:
+pip install flask-sqlalchemy
+pip install pymysql
+pip install PyMySQL[rsa]
+
+DOCKER:
+$ docker build -t z-cars2-db .
+$ docker run -d -p 3306:3306 --name=z-cars2-mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=z_cars2 z-cars2-db
+
+RUN
+$ python3 src/app.py

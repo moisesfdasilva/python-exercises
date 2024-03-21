@@ -1,0 +1,11 @@
+INSTALL:
+$ python3 -m venv .venv && source .venv/bin/activate
+$ pip install flask
+$ pip install mysql-connector-python
+
+DOCKER:
+$ docker build -t z-cars2-db .
+$ docker run -d -p 3306:3306 --name=z-cars2-mysql-container -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=z_cars2 z-cars2-db
+
+RUN
+$ python3 src/app.py
