@@ -8,7 +8,7 @@ app.config.from_pyfile('config.py')
 
 db = SQLAlchemy(app)
 
-from car_controller import *
+from controllers.car_controller import *
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8000)
