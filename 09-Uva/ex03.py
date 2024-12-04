@@ -11,6 +11,6 @@ class Funcionario:
         return f"Nome: {self.nome} e salário: R$ {self._salario}."
 
 
-joao = Funcionario("Joao", 2000)
+joao = Funcionario("Joao", 2500)
 joao.aumentar_salario(10)
 print(joao.exibir_informacao())
