@@ -14,7 +14,7 @@ class Conversion:
                 if (number >= 900):
                     romanNumeral += "CM"
                     number -= 900
-                elif (number <= 800 and number >= 500):
+                elif (number < 900 and number >= 500):
                     romanNumeral += "D"
                     number -= 500
                 elif (number < 500 and number >= 400):
@@ -27,7 +27,7 @@ class Conversion:
                 if (number >= 90):
                     romanNumeral += "XC"
                     number -= 90
-                elif (number <= 80 and number >= 50):
+                elif (number < 90 and number >= 50):
                     romanNumeral += "L"
                     number -= 50
                 elif (number < 50 and number >= 40):
@@ -40,7 +40,7 @@ class Conversion:
                 if (number == 9):
                     romanNumeral += "IX"
                     number -= 9
-                elif (number <= 8 and number >= 5):
+                elif (number < 9 and number >= 5):
                     romanNumeral += "V"
                     number -= 5
                 elif (number == 4):

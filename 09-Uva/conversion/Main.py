@@ -3,12 +3,23 @@ from Conversion import Conversion
 
 class Main:
     def run(self) -> None:
-        numbers = [9, 95, 955, 9555, 1, 11, 111, 1111, 4,
-                   44, 444, 4444, 7, 77, 777, 7777]
+        option = 2
 
-        for number in numbers:
-            conversion = Conversion(number)
-            print(conversion.output())
+        while (option != 0):
+            option = int(input("Deseja converter um numero em algarismo " +
+                               "romano?\n  (1) Sim.\n  (0) Nao.\n"))
+
+            match option:
+                case 0:
+                    print("  ...saindo...")
+                    option = 0
+                case 1:
+                    number = int(input("  Digite o numero:"))
+                    conversion = Conversion(number)
+                    print(conversion.output())
+                    option = 0
+                case _:
+                    print("  Escolha uma opcao valida.")
 
 
 main = Main()
