@@ -1,0 +1,8 @@
+site, base:
+https://www.youtube.com/watch?v=I17uA1sVQ2g
+
+execute mongo image:
+$ docker run --name <nome-do-container> -d mongo:4
+
+create mongo container:
+docker run --name <nome-do-container> -d -p 27017:27017 mongo:4
